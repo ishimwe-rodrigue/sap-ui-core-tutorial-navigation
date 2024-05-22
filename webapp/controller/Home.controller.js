@@ -9,8 +9,8 @@ sap.ui.define([
 				fromTarget : "home"
 			});
 		},
-        onNavToEmployees : function (){
-			this.getRouter().navTo("employeeList");
+		onNavToEmployeeOverview : function ()  {
+			this.getRouter().navTo("employeeOverview");
 		}
 	});
 });
