@@ -73,7 +73,7 @@ sap.ui.define([
 			const oRouter = this.getRouter();
 			this._oVSD = new ViewSettingsDialog("vsd", {
 				confirm: function (oEvent) {
-					var oSortItem = oEvent.getParameter("sortItem");
+					const oSortItem = oEvent.getParameter("sortItem");
 					this._oRouterArgs["?query"].sortField = oSortItem.getKey();
 					this._oRouterArgs["?query"].sortDescending = oEvent.getParameter("sortDescending");
 					delete this._oRouterArgs["?query"].showDialog;
@@ -106,7 +106,7 @@ sap.ui.define([
 		},
 
 		_applySearchFilter : function (sSearchQuery) {
-			var aFilters, oFilter, oBinding;
+			let oFilter
 
 			// first check if we already have this search value
 			if (this._sSearchQuery === sSearchQuery) {
@@ -116,17 +116,17 @@ sap.ui.define([
 			this.byId("searchField").setValue(sSearchQuery);
 
 			// add filters for search
-			aFilters = [];
+		    const aFilters = [];
 			if (sSearchQuery && sSearchQuery.length > 0) {
 				aFilters.push(new Filter("FirstName", FilterOperator.Contains, sSearchQuery));
 				aFilters.push(new Filter("LastName", FilterOperator.Contains, sSearchQuery));
-				oFilter = new Filter({ filters: aFilters, and: false });  // OR filter
+			 oFilter = new Filter({ filters: aFilters, and: false });  // OR filter
 			} else {
 				oFilter = null;
 			}
 
 			// update list binding
-			oBinding = this._oTable.getBinding("items");
+			const oBinding = this._oTable.getBinding("items");
 			oBinding.filter(oFilter, "Application");
 		},
 
@@ -137,7 +137,7 @@ sap.ui.define([
 		 * @private
 		 */
 		_applySorter : function (sSortField, sortDescending){
-			var bSortDescending, oBinding, oSorter;
+			let bSortDescending;
 
 			// only continue if we have a valid sort field
 			if (sSortField && this._aValidSortFields.indexOf(sSortField) > -1) {
@@ -158,12 +158,12 @@ sap.ui.define([
 
 				this._sSortField = sSortField;
 				this._bSortDescending = bSortDescending;
-				oSorter = new Sorter(sSortField, bSortDescending);
+				const oSorter = new Sorter(sSortField, bSortDescending);
 
 				// sync with View Settings Dialog
 				this._syncViewSettingsDialogSorter(sSortField, bSortDescending);
 
-				oBinding = this._oTable.getBinding("items");
+				const oBinding = this._oTable.getBinding("items");
 				oBinding.sort(oSorter);
 			}
 		},
@@ -175,9 +175,9 @@ sap.ui.define([
 			this._oVSD.setSortDescending(bSortDescending);
 		},
 		onItemPressed: function (oEvent) {
-			var oItem, oCtx, oRouter;
-			oItem = oEvent.getParameter("listItem");
-			oCtx = oItem.getBindingContext();
+			var oRouter;
+			const oItem = oEvent.getParameter("listItem");
+			const oCtx = oItem.getBindingContext();
 			this.getRouter().navTo("employeeResume",{
 				employeeId : oCtx.getProperty("EmployeeID"),
 				"?query": {
